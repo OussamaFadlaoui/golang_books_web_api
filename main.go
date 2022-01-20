@@ -13,15 +13,20 @@ func handleRequests() {
 	router := mux.NewRouter()
 
 	router.NotFoundHandler = http.HandlerFunc(routes.NotFoundPage)
-	router.HandleFunc("/books", books.FetchAllBooks)
+
+	router.HandleFunc("/books", books.FetchAllBooks).Methods("GET")
+	router.HandleFunc("/books", books.SubmitNewBook).Methods("POST")
 
 	applyGlobalMiddlewares(router)
 
-	log.Fatal(http.ListenAndServe(":10000", router))
+	log.Fatal(http.ListenAndServe(":1212", router))
 }
 
 func applyGlobalMiddlewares(router *mux.Router) {
-	router.Use(middlewares.LoggingMiddleware)
+	router.Use(
+		middlewares.ContentTypeJsonMiddleware,
+		middlewares.LoggingMiddleware,
+	)
 }
 
 func main() {
