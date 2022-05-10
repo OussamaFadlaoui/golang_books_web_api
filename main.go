@@ -8,7 +8,14 @@ import (
 	"net/http"
 )
 
-func handleRequests() {
+func applyGlobalMiddlewares(router *mux.Router) {
+	router.Use(
+		middlewares.ContentTypeJsonMiddleware,
+		middlewares.LoggingMiddleware,
+	)
+}
+
+func main() {
 	router := mux.NewRouter()
 
 	router.NotFoundHandler = http.HandlerFunc(routes.NotFoundPage)
@@ -20,15 +27,4 @@ func handleRequests() {
 	applyGlobalMiddlewares(router)
 
 	log.Fatal(http.ListenAndServe(":1212", router))
-}
-
-func applyGlobalMiddlewares(router *mux.Router) {
-	router.Use(
-		middlewares.ContentTypeJsonMiddleware,
-		middlewares.LoggingMiddleware,
-	)
-}
-
-func main() {
-	handleRequests()
 }
