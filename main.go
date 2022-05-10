@@ -14,8 +14,9 @@ func handleRequests() {
 
 	router.NotFoundHandler = http.HandlerFunc(routes.NotFoundPage)
 
-	router.HandleFunc("/books", books.FetchAllBooks).Methods("GET")
-	router.HandleFunc("/books", books.SubmitNewBook).Methods("POST")
+	bookRoutes := router.PathPrefix("/books").Subrouter()
+	bookRoutes.HandleFunc("", books.FetchAllBooks).Methods("GET")
+	bookRoutes.HandleFunc("", books.SubmitNewBook).Methods("POST")
 
 	applyGlobalMiddlewares(router)
 
