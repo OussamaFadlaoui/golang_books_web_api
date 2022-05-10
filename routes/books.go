@@ -1,4 +1,4 @@
-package books
+package routes
 
 import (
 	"encoding/json"
@@ -32,4 +32,8 @@ func FetchAllBooks(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		_ = json.NewEncoder(w).Encode("Error request")
 	}
+}
+
+func SubmitNewBook(w http.ResponseWriter, r *http.Request) {
+	fmt.Println(r.Body)
 }

@@ -4,7 +4,6 @@ import (
 	"github.com/gorilla/mux"
 	"golang_books_web_api/middlewares"
 	"golang_books_web_api/routes"
-	"golang_books_web_api/routes/books"
 	"log"
 	"net/http"
 )
@@ -15,8 +14,8 @@ func handleRequests() {
 	router.NotFoundHandler = http.HandlerFunc(routes.NotFoundPage)
 
 	bookRoutes := router.PathPrefix("/books").Subrouter()
-	bookRoutes.HandleFunc("", books.FetchAllBooks).Methods("GET")
-	bookRoutes.HandleFunc("", books.SubmitNewBook).Methods("POST")
+	bookRoutes.HandleFunc("", routes.FetchAllBooks).Methods("GET")
+	bookRoutes.HandleFunc("", routes.SubmitNewBook).Methods("POST")
 
 	applyGlobalMiddlewares(router)
 
